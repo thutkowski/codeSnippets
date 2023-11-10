@@ -54,6 +54,25 @@ Public Class sqlCode
 
         'Open the connection.
         myConn.Open()
+
     End Sub
 
+    'checks if a table exists against the master table
+    Public Function TableExists(tableName As String) As Boolean
+        command.CommandText = "Select Name FROM sqlite_master WHERE type='table'"
+        Dim results As String = ""
+        rdr = command.ExecuteReader()
+
+        While rdr.Read()
+            results += rdr.GetString(0)
+        End While
+        If results.Contains(tableName) Then
+            MessageBox.Show(results)
+            rdr.Close()
+            Return True
+        Else
+            rdr.Close()
+            Return False
+        End If
+    End Function
 End Class
